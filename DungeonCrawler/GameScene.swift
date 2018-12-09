@@ -11,10 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var upButtonIsPressed = false
-    var downButtonIsPressed = false
-    var leftButtonIsPressed = false
-    var rightButtonIsPressed = false
+    var buttonIsPressed = false
+    
+    var movementDirection: Direction?
     
     let cam = SKCameraNode()
     var playerCharacter: SKSpriteNode!
@@ -41,16 +40,16 @@ class GameScene: SKScene {
     }
     
     func loadButtonNodes() {
-//        upButton.position = CGPoint(x: (self.frame.midX - (self.frame.midX / 2)), y: (self.frame.midY - (self.frame.midY / 2)) + 12)
-//        rightButton.position = CGPoint(x: (self.frame.midX - (self.frame.midX / 2)) + 12, y: self.frame.midY - (self.frame.midY / 2))
-//        downButton.position = CGPoint(x: (self.frame.midX - (self.frame.midX / 2)), y: (self.frame.midY - (self.frame.midY / 2)) - 12)
-//        leftButton.position = CGPoint(x: (self.frame.midX - (self.frame.midX / 2)) - 12, y: self.frame.midY - (self.frame.midY / 2))
+        upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
+        rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
+        downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
+        leftButton.position = CGPoint(x: self.frame.minX, y: self.frame.minY + 48*5)
         
-        upButton.position = CGPoint(x: 250,y: 200)
+        //upButton.position = CGPoint(x: 250,y: 200)
         addChild(upButton)
-       // addChild(rightButton)
-        //addChild(downButton)
-       // addChild(leftButton)
+        addChild(rightButton)
+        addChild(downButton)
+        addChild(leftButton)
     }
     
     
@@ -87,7 +86,6 @@ class GameScene: SKScene {
                 }
             }
         }
-        
         graph.remove(obstacles)
     }
     
@@ -105,115 +103,161 @@ class GameScene: SKScene {
         var xMove = CGFloat()
         var yMove = CGFloat()
         
-        if direction == MovementDirection.up {
+        if direction.amount == (0,1) {
             xMove = CGFloat(integerLiteral: 0)
             yMove = CGFloat(integerLiteral: 128)
-        } else if direction == MovementDirection.down {
+        } else if direction.amount == (0,-1) {
             xMove = CGFloat(integerLiteral: 0)
             yMove = CGFloat(integerLiteral: -128)
-        } else if direction == MovementDirection.left {
+        } else if direction.amount == (-1,0) {
             xMove = CGFloat(integerLiteral: -128)
             yMove = CGFloat(integerLiteral: 0)
-        } else if direction == MovementDirection.right {
+        } else if direction.amount == (1,0) {
             xMove = CGFloat(integerLiteral: 128)
             yMove = CGFloat(integerLiteral: 0)
         }
-        let currentLocation = playerCharacter.position
-        let newLocation = CGPoint(x: currentLocation.x + xMove, y: currentLocation.y + yMove)
-        let moveAction = SKAction.move(to: newLocation , duration: 0.5)
-        //let repeatMove = SKAction.re
-        playerCharacter.run(moveAction)
+        moveStuff(xMove: xMove, yMove: yMove)
+    }
+    
+    func moveStuff(xMove: CGFloat, yMove: CGFloat) {
         
+        let currentPlayerLocation = playerCharacter.position
+        let currentUpLocation = upButton.position
+        let currentLeftLocation = leftButton.position
+        let currentRightLocation = rightButton.position
+        let currentDownLocation = downButton.position
+        
+        let newPlayerLocation = CGPoint(x: currentPlayerLocation.x + xMove, y: currentPlayerLocation.y + yMove)
+        let newUpLocation = CGPoint(x: currentUpLocation.x + xMove, y: currentUpLocation.y + yMove)
+        let newLeftLocation = CGPoint(x: currentLeftLocation.x + xMove, y: currentLeftLocation.y + yMove)
+        let newRightLocation = CGPoint(x: currentRightLocation.x + xMove, y: currentRightLocation.y + yMove)
+        let newDownLocation = CGPoint(x: currentDownLocation.x + xMove, y: currentDownLocation.y + yMove)
+        
+        let movePlayerAction = SKAction.move(to: newPlayerLocation , duration: 0.25)
+        let moveUpAction = SKAction.move(to: newUpLocation , duration: 0.25)
+        let moveLeftAction = SKAction.move(to: newLeftLocation , duration: 0.25)
+        let moveRightAction = SKAction.move(to: newRightLocation , duration: 0.25)
+        let moveDownAction = SKAction.move(to: newDownLocation , duration: 0.25)
+        
+        playerCharacter.run(movePlayerAction)
+        upButton.run(moveUpAction)
+        leftButton.run(moveLeftAction)
+        rightButton.run(moveRightAction)
+        downButton.run(moveDownAction)
     }
     
     override func update(_ currentTime: TimeInterval) {
         cam.position = playerCharacter.position
-    }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-////        if let touch = touches.first {
-////            if leftButton.contains(touch.location(in: self)) {
-////                leftButtonIsPressed = true
-////            }
-////            if rightButton.contains(touch.location(in: self)) {
-////                rightButtonIsPressed = true
-////            }
-////            if upButton.contains(touch.location(in: self)) {
-////                upButtonIsPressed = true
-////            }
-////            if downButton.contains(touch.location(in: self)) {
-////                downButtonIsPressed = true
-////            }
-////        }
-//    }
-//
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-////        if let touch = touches.first {
-////            if leftButton.contains(touch.location(in: self)) {
-////                leftButtonIsPressed = false
-////            }
-////            if rightButton.contains(touch.location(in: self)) {
-////                rightButtonIsPressed = false
-////            }
-////            if upButton.contains(touch.location(in: self)) {
-////                upButtonIsPressed = false
-////            }
-////            if downButton.contains(touch.location(in: self)) {
-////                downButtonIsPressed = false
-////            }
-////        }
-//    }
-    
-    
-    var touches = Set<UITouch>()
-    var firstTouchLocation = CGPoint(x: 0, y: 0)
-    
-    var dPadDirection: Direction? {
-        if self.touches.count != 1 {
-            return nil
+        
+        if let direction = movementDirection {
+            if buttonIsPressed {
+                movePlayerInDirection(direction: direction)
+            }
         }
-        let touch = self.touches.first!
-        let loc = touch.location(in: self.view)
-        let coordX = loc.x - firstTouchLocation.x
-        let coordY = loc.y - firstTouchLocation.y
-        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
-            return nil
-        }
-        let coords = CGPoint(x: coordX, y: coordY)
-        let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
-        return Direction(degrees: degrees)
+        
     }
     
     func updateTouches(touches: Set<UITouch>) {
-        if self.touches.count <= 0 && touches.count > 0 {
-            firstTouchLocation = touches.first!.location(in: self.view)
-        }
-        //self.touches.unionInPlace(touches: touches)
-    }
-    
-    func endTouches(touches: Set<UITouch>) {
-        //self.touches.subtractInPlace(touches: touches)
-        firstTouchLocation = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        print("testing for a direction")
+        
+        if let touch = touches.first {
+            print("\(touch.location(in: self))")
+            
+            if leftButton.contains(touch.location(in: self)) {
+                buttonIsPressed = true
+                print("left button pressed")
+                movementDirection = .W
+            } else if rightButton.contains(touch.location(in: self)) {
+                buttonIsPressed = true
+                print("right button pressed")
+                movementDirection = .E
+            } else if upButton.contains(touch.location(in: self)) {
+                buttonIsPressed = true
+                print("up button pressed")
+                movementDirection = .N
+            } else if downButton.contains(touch.location(in: self)) {
+                buttonIsPressed = true
+                print("down button pressed")
+                movementDirection = .S
+            } else {
+                movementDirection = .X
+                buttonIsPressed = false
+            }
+            
+        } else {print("updateTouches is weird")}
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touches began")
         self.updateTouches(touches: touches)
     }
-    
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touches moved")
+        self.updateTouches(touches: touches)
+    }
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.endTouches(touches: touches)
+        print("touches ended")
+        self.endTouches()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.endTouches(touches: touches)
+        print("how do you cancel a touch?")
+        self.endTouches()
     }
+
+    func endTouches() {
+        print("no more touches")
+        buttonIsPressed = false
+    }
+
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.updateTouches(touches: touches)
-    }
+//    var touches = Set<UITouch>()
+//    var firstTouchLocation = CGPoint(x: 0, y: 0)
+//
+//    var dPadDirection: Direction? {
+//        if self.touches.count != 1 {
+//            return nil
+//        }
+//        let touch = self.touches.first!
+//        let loc = touch.location(in: self.view)
+//        let coordX = loc.x - firstTouchLocation.x
+//        let coordY = loc.y - firstTouchLocation.y
+//        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
+//            return nil
+//        }
+//        let coords = CGPoint(x: coordX, y: coordY)
+//        let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
+//        return Direction(degrees: degrees)
+//    }
+//
+//    func updateTouches(touches: Set<UITouch>) {
+//        if self.touches.count <= 0 && touches.count > 0 {
+//            firstTouchLocation = touches.first!.location(in: self.view)
+//        }
+//        //self.touches.unionInPlace(touches: touches)
+//    }
+//
+//    func endTouches(touches: Set<UITouch>) {
+//        //self.touches.subtractInPlace(touches: touches)
+//        firstTouchLocation = CGPoint(x: self.frame.midX, y: self.frame.midY)
+//    }
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.updateTouches(touches: touches)
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.endTouches(touches: touches)
+//    }
+//
+//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.endTouches(touches: touches)
+//    }
+//
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.updateTouches(touches: touches)
+//    }
 }
 //

@@ -9,7 +9,7 @@
 import Foundation
 
 enum Direction: Int {
-    case N,E,S,W
+    case N,E,S,W,X
     
     var description:String {
         switch self {
@@ -17,6 +17,7 @@ enum Direction: Int {
         case .E: return "E"
         case .S: return "S"
         case .W: return "W"
+        case .X: return "X"
         }
     }
     
@@ -26,6 +27,7 @@ enum Direction: Int {
         case .E: return (1,0)
         case .S: return (0,-1)
         case .W: return (-1,0)
+        case .X: return (43,110)
         }
     }
     
