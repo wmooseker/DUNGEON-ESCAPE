@@ -32,6 +32,13 @@ class GameScene: SKScene {
         let moveDirection = MovementDirection.left
     })
     
+    enum MovementDirection: Int {
+        case up = 1
+        case down = -1
+        case left = -2
+        case right = 2
+    }
+    
     func loadButtonNodes() {
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
         rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
