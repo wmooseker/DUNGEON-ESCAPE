@@ -32,20 +32,12 @@ class GameScene: SKScene {
         let moveDirection = MovementDirection.left
     })
     
-    enum MovementDirection: Int {
-        case up = 1
-        case down = -1
-        case left = -2
-        case right = 2
-    }
-    
     func loadButtonNodes() {
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
         rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
         downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
         leftButton.position = CGPoint(x: self.frame.minX, y: self.frame.minY + 48*5)
         
-        //upButton.position = CGPoint(x: 250,y: 200)
         addChild(upButton)
         addChild(rightButton)
         addChild(downButton)
@@ -260,4 +252,4 @@ class GameScene: SKScene {
 //        self.updateTouches(touches: touches)
 //    }
 }
-//
+
