@@ -13,6 +13,9 @@ class GameScene: SKScene {
     
     var buttonIsPressed = false
     
+    
+    var walls = [SKSpriteNode]()
+    
     var movementDirection: Direction?
     
     let cam = SKCameraNode()
@@ -23,21 +26,21 @@ class GameScene: SKScene {
     var leftButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
     })
     var rightButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
-        let moveDirection = MovementDirection.right
+        //let moveDirection = MovementDirection.right
     })
     var upButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
-        let moveDirection = MovementDirection.up
+        //let moveDirection = MovementDirection.up
     })
     var downButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
-        let moveDirection = MovementDirection.left
+        //let moveDirection = MovementDirection.left
     })
     
-    enum MovementDirection: Int {
-        case up = 1
-        case down = -1
-        case left = -2
-        case right = 2
-    }
+//    enum MovementDirection: Int {
+//        case up = 1
+//        case down = -1
+//        case left = -2
+//        case right = 2
+//    }
     
     func loadButtonNodes() {
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
@@ -53,7 +56,20 @@ class GameScene: SKScene {
     
     
     func loadSceneNodes() {
- 
+        
+        var count = 1
+        
+        while(count > 0){
+            
+            if let wall = childNode(withName: "wall\(count)") as? SKSpriteNode {
+                walls.append(wall)
+                print(wall.position)
+                print("added wall")
+            } else {
+                count = -1
+            }
+            count += 1
+        }
         
         guard let playerCharacter = childNode(withName: "playerCharacter") as? SKSpriteNode else{
             fatalError("error with loading player node")
@@ -101,21 +117,35 @@ class GameScene: SKScene {
         
         var xMove = CGFloat()
         var yMove = CGFloat()
+        var canMove = true
+        let currentPlayerLocation = playerCharacter.position
+        var futureLocation: CGPoint
         
-        if direction.amount == (0,1) {
+        if direction.amount == (0,1) {      //up
             xMove = CGFloat(integerLiteral: 0)
             yMove = CGFloat(integerLiteral: 128)
-        } else if direction.amount == (0,-1) {
+        } else if direction.amount == (0,-1) {      //down
             xMove = CGFloat(integerLiteral: 0)
             yMove = CGFloat(integerLiteral: -128)
-        } else if direction.amount == (-1,0) {
+        } else if direction.amount == (-1,0) {      //left
             xMove = CGFloat(integerLiteral: -128)
             yMove = CGFloat(integerLiteral: 0)
-        } else if direction.amount == (1,0) {
+        } else if direction.amount == (1,0) {       //right
             xMove = CGFloat(integerLiteral: 128)
             yMove = CGFloat(integerLiteral: 0)
         }
-        moveStuff(xMove: xMove, yMove: yMove)
+        futureLocation = CGPoint(x: currentPlayerLocation.x + xMove, y: currentPlayerLocation.y + yMove)
+        for wall in walls {
+            if (wall.contains(futureLocation)){
+                print("wall is in the way")
+                canMove = false
+                xMove = 0
+                yMove = 0
+            }
+        }
+        if(canMove){
+          moveStuff(xMove: xMove, yMove: yMove)
+       }
     }
     
     func moveStuff(xMove: CGFloat, yMove: CGFloat) {

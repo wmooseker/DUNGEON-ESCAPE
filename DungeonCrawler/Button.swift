@@ -20,13 +20,13 @@ class Button: SKNode {
         activeButtonSprite = SKSpriteNode(imageNamed: activeButtonImage)
         action = buttonAction
         super.init()
-        isUserInteractionEnabled = true
+        //isUserInteractionEnabled = true
         addChild(defaultButtonSprite)
     }
    //
-   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
+//   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
 //    override func update() {
 //        if leftButtonIsPressed == true {
 //            let moveDirection = Direction.left
