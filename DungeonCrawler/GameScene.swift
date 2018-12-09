@@ -129,7 +129,7 @@ class GameScene: SKScene {
     
         
     func monsterTime(){
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { (timer) in
             for monster in self.monsters{
                 let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
                 let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
@@ -196,9 +196,9 @@ class GameScene: SKScene {
         let loc = playerCharacter.position
         let coordY = loc.x - monster.position.x
         let coordX = loc.y - monster.position.y
-        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
-            return nil
-        }
+//        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
+//            return nil
+//        }
         let coords = CGPoint(x: coordX, y: coordY)
         let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
         return Direction(degrees: degrees)
