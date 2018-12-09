@@ -11,10 +11,13 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var timer: Timer? = nil
+    
     var buttonIsPressed = false
     
-    
     var walls = [SKSpriteNode]()
+    
+    var monsters = [SKSpriteNode]()
     
     var movementDirection: Direction?
     
@@ -57,18 +60,29 @@ class GameScene: SKScene {
     
     func loadSceneNodes() {
         
-        var count = 1
+        var wallCount = 1
+        var monsterCount = 1
         
-        while(count > 0){
+        while(wallCount > 0){
             
-            if let wall = childNode(withName: "wall\(count)") as? SKSpriteNode {
+            if let wall = childNode(withName: "wall\(wallCount)") as? SKSpriteNode {
                 walls.append(wall)
-                print(wall.position)
-                print("added wall")
             } else {
-                count = -1
+                wallCount = -1
             }
-            count += 1
+            wallCount += 1
+        }
+        
+        while(monsterCount > 0){
+            
+            if let monster = childNode(withName: "monster\(monsterCount)") as? SKSpriteNode {
+                monsters.append(monster)
+                print(monster.position)
+                print("added monster")
+            } else {
+                monsterCount = -1
+            }
+            monsterCount += 1
         }
         
         guard let playerCharacter = childNode(withName: "playerCharacter") as? SKSpriteNode else{
@@ -101,6 +115,7 @@ class GameScene: SKScene {
                 }
             }
         }
+        monsterTime()
         graph.remove(obstacles)
     }
     
@@ -110,8 +125,84 @@ class GameScene: SKScene {
         
     }
     
-        
     
+    
+        
+    func monsterTime(){
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+            for monster in self.monsters{
+                let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
+                let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
+                if(xRange < 640 && yRange < 640){
+                    print("monster in camera")
+                    if let direction = self.monsterDirection(monster: monster){
+                        self.canMonsterMove(direction: direction, monster: monster)
+                    }
+                }
+            }
+        })
+    }
+    
+    func canMonsterMove(direction: Direction, monster: SKSpriteNode) {
+        var xMove = CGFloat()
+        var yMove = CGFloat()
+        var canMove = true
+        let currentMonsterLocation = monster.position
+        var futureLocation: CGPoint
+        
+        if direction.amount == (0,1) {      //up
+            xMove = CGFloat(integerLiteral: 0)
+            yMove = CGFloat(integerLiteral: 128)
+        } else if direction.amount == (0,-1) {      //down
+            xMove = CGFloat(integerLiteral: 0)
+            yMove = CGFloat(integerLiteral: -128)
+        } else if direction.amount == (-1,0) {      //left
+            xMove = CGFloat(integerLiteral: -128)
+            yMove = CGFloat(integerLiteral: 0)
+        } else if direction.amount == (1,0) {       //right
+            xMove = CGFloat(integerLiteral: 128)
+            yMove = CGFloat(integerLiteral: 0)
+        }
+        futureLocation = CGPoint(x: currentMonsterLocation.x + xMove, y: currentMonsterLocation.y + yMove)
+        for wall in walls {
+            if (wall.contains(futureLocation) || playerCharacter.contains(futureLocation)){
+                print("monster no move")
+                canMove = false
+            }
+        }
+        if(canMove){
+            moveMonster(xMove: xMove, yMove: yMove, monster: monster)
+        } else {
+            monsterAttack()
+        }
+    }
+    
+    func moveMonster(xMove: CGFloat, yMove: CGFloat, monster: SKSpriteNode){
+        let currentMonsterLocation = monster.position
+        
+        let newMonsterLocation = CGPoint(x: currentMonsterLocation.x + xMove, y: currentMonsterLocation.y + yMove)
+        
+        let moveMonsterAction = SKAction.move(to: newMonsterLocation , duration: 0.25)
+        
+        monster.run(moveMonsterAction)
+        
+    }
+    
+    func monsterAttack(){
+        
+    }
+    
+    func monsterDirection(monster: SKSpriteNode)  -> Direction? {
+        let loc = playerCharacter.position
+        let coordY = loc.x - monster.position.x
+        let coordX = loc.y - monster.position.y
+        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
+            return nil
+        }
+        let coords = CGPoint(x: coordX, y: coordY)
+        let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
+        return Direction(degrees: degrees)
+    }
     
     func movePlayerInDirection(direction: Direction) {
         
@@ -137,10 +228,7 @@ class GameScene: SKScene {
         futureLocation = CGPoint(x: currentPlayerLocation.x + xMove, y: currentPlayerLocation.y + yMove)
         for wall in walls {
             if (wall.contains(futureLocation)){
-                print("wall is in the way")
                 canMove = false
-                xMove = 0
-                yMove = 0
             }
         }
         if(canMove){
@@ -187,106 +275,48 @@ class GameScene: SKScene {
     }
     
     func updateTouches(touches: Set<UITouch>) {
-        print("testing for a direction")
         
         if let touch = touches.first {
-            print("\(touch.location(in: self))")
             
             if leftButton.contains(touch.location(in: self)) {
                 buttonIsPressed = true
-                print("left button pressed")
                 movementDirection = .W
             } else if rightButton.contains(touch.location(in: self)) {
                 buttonIsPressed = true
-                print("right button pressed")
                 movementDirection = .E
             } else if upButton.contains(touch.location(in: self)) {
                 buttonIsPressed = true
-                print("up button pressed")
                 movementDirection = .N
             } else if downButton.contains(touch.location(in: self)) {
                 buttonIsPressed = true
-                print("down button pressed")
                 movementDirection = .S
             } else {
                 movementDirection = .X
                 buttonIsPressed = false
             }
             
-        } else {print("updateTouches is weird")}
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches began")
         self.updateTouches(touches: touches)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches moved")
         self.updateTouches(touches: touches)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches ended")
         self.endTouches()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("how do you cancel a touch?")
         self.endTouches()
     }
 
     func endTouches() {
-        print("no more touches")
         buttonIsPressed = false
     }
 
-    
-//    var touches = Set<UITouch>()
-//    var firstTouchLocation = CGPoint(x: 0, y: 0)
-//
-//    var dPadDirection: Direction? {
-//        if self.touches.count != 1 {
-//            return nil
-//        }
-//        let touch = self.touches.first!
-//        let loc = touch.location(in: self.view)
-//        let coordX = loc.x - firstTouchLocation.x
-//        let coordY = loc.y - firstTouchLocation.y
-//        if (coordX < 3 && coordY < 3) { // minimum distance to be considered movement
-//            return nil
-//        }
-//        let coords = CGPoint(x: coordX, y: coordY)
-//        let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
-//        return Direction(degrees: degrees)
-//    }
-//
-//    func updateTouches(touches: Set<UITouch>) {
-//        if self.touches.count <= 0 && touches.count > 0 {
-//            firstTouchLocation = touches.first!.location(in: self.view)
-//        }
-//        //self.touches.unionInPlace(touches: touches)
-//    }
-//
-//    func endTouches(touches: Set<UITouch>) {
-//        //self.touches.subtractInPlace(touches: touches)
-//        firstTouchLocation = CGPoint(x: self.frame.midX, y: self.frame.midY)
-//    }
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.updateTouches(touches: touches)
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.endTouches(touches: touches)
-//    }
-//
-//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.endTouches(touches: touches)
-//    }
-//
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.updateTouches(touches: touches)
-//    }
 }
 
