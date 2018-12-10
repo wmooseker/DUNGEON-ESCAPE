@@ -14,12 +14,22 @@ class GameScene: SKScene {
     var timer: Timer? = nil
     
     var buttonIsPressed = false
-    
+    var healthLabel = SKLabelNode(fontNamed: "Papyrus")
     var walls = [SKSpriteNode]()
-    
+    var monsterHealth = [Int]()
     var monsters = [SKSpriteNode]()
     
     var movementDirection: Direction?
+    
+    var playerHealth = 100 {
+        didSet {
+            if(playerHealth <= 0){
+                healthLabel.text = ("Health: dead/100")
+            } else {
+                healthLabel.text = ("Health: \(playerHealth)/100")
+            }
+        }
+    }
     
     let cam = SKCameraNode()
     var playerCharacter: SKSpriteNode!
@@ -51,10 +61,15 @@ class GameScene: SKScene {
         downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
         leftButton.position = CGPoint(x: self.frame.minX, y: self.frame.minY + 48*5)
         
+        healthLabel.fontSize = 50
+        healthLabel.text = ("Health: \(playerHealth)/100")
+        healthLabel.position = CGPoint(x: self.frame.midX + self.frame.maxX/4, y: self.frame.minY + 24*5)
+        
         addChild(upButton)
         addChild(rightButton)
         addChild(downButton)
         addChild(leftButton)
+        addChild(healthLabel)
     }
     
     
@@ -77,6 +92,7 @@ class GameScene: SKScene {
             
             if let monster = childNode(withName: "monster\(monsterCount)") as? SKSpriteNode {
                 monsters.append(monster)
+                monsterHealth.append(100)
                 print(monster.position)
                 print("added monster")
             } else {
@@ -134,7 +150,6 @@ class GameScene: SKScene {
                 let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
                 let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
                 if(xRange < 640 && yRange < 640){
-                    print("monster in camera")
                     if let direction = self.monsterDirection(monster: monster){
                         self.canMonsterMove(direction: direction, monster: monster)
                     }
@@ -166,14 +181,13 @@ class GameScene: SKScene {
         futureLocation = CGPoint(x: currentMonsterLocation.x + xMove, y: currentMonsterLocation.y + yMove)
         for wall in walls {
             if (wall.contains(futureLocation) || playerCharacter.contains(futureLocation)){
-                print("monster no move")
                 canMove = false
             }
         }
         if(canMove){
             moveMonster(xMove: xMove, yMove: yMove, monster: monster)
         } else {
-            monsterAttack()
+            monsterAttack(monster: monster)
         }
     }
     
@@ -188,8 +202,19 @@ class GameScene: SKScene {
         
     }
     
-    func monsterAttack(){
-        
+    func monsterAttack(monster: SKSpriteNode){
+            let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
+            let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
+            if(xRange < 250 && yRange < 250){
+                self.playerHealth -= 10
+                if(self.playerHealth <= 0){
+                    self.playerCharacter.texture = SKTexture(imageNamed: "Pine_Tree")
+                    //gameOver()
+                }
+                //let action = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 1)
+                //monster.run(action)
+                
+            }
     }
     
     func monsterDirection(monster: SKSpriteNode)  -> Direction? {
@@ -243,24 +268,28 @@ class GameScene: SKScene {
         let currentLeftLocation = leftButton.position
         let currentRightLocation = rightButton.position
         let currentDownLocation = downButton.position
+        let currentHealthLocation = healthLabel.position
         
         let newPlayerLocation = CGPoint(x: currentPlayerLocation.x + xMove, y: currentPlayerLocation.y + yMove)
         let newUpLocation = CGPoint(x: currentUpLocation.x + xMove, y: currentUpLocation.y + yMove)
         let newLeftLocation = CGPoint(x: currentLeftLocation.x + xMove, y: currentLeftLocation.y + yMove)
         let newRightLocation = CGPoint(x: currentRightLocation.x + xMove, y: currentRightLocation.y + yMove)
         let newDownLocation = CGPoint(x: currentDownLocation.x + xMove, y: currentDownLocation.y + yMove)
+        let newHealthLocation = CGPoint(x: currentHealthLocation.x + xMove, y: currentHealthLocation.y + yMove)
         
         let movePlayerAction = SKAction.move(to: newPlayerLocation , duration: 0.25)
         let moveUpAction = SKAction.move(to: newUpLocation , duration: 0.25)
         let moveLeftAction = SKAction.move(to: newLeftLocation , duration: 0.25)
         let moveRightAction = SKAction.move(to: newRightLocation , duration: 0.25)
         let moveDownAction = SKAction.move(to: newDownLocation , duration: 0.25)
+        let moveHealthAction = SKAction.move(to: newHealthLocation , duration: 0.25)
         
         playerCharacter.run(movePlayerAction)
         upButton.run(moveUpAction)
         leftButton.run(moveLeftAction)
         rightButton.run(moveRightAction)
         downButton.run(moveDownAction)
+        healthLabel.run(moveHealthAction)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -293,6 +322,30 @@ class GameScene: SKScene {
             } else {
                 movementDirection = .X
                 buttonIsPressed = false
+            }
+            
+            var count = 0
+            for monster in self.monsters{
+                let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
+                let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
+                if((xRange < 250 && yRange < 250) && monster.contains(touch.location(in:self))){
+                    print("monster in range")
+                    monsterHealth[count] -= 10
+                    if(monsterHealth[count] <= 0){
+                        monster.texture = SKTexture(imageNamed: "Pine_Tree")
+                        self.monsters.remove(at: count)
+                        self.monsterHealth.remove(at: count)
+                    } else if (monsterHealth[count] <= 50){
+                        monster.color = UIColor.red
+                    } else {
+                        monster.color = UIColor.magenta
+                    }
+                    monster.colorBlendFactor = 1
+                    //let action = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 1)
+                    //monster.run(action)
+                    
+                }
+                count += 1
             }
             
         }

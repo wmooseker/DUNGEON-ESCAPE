@@ -13,7 +13,6 @@ class Button: SKNode {
     var defaultButtonSprite = SKSpriteNode()
     var activeButtonSprite = SKSpriteNode()
     var action: () -> Void
-    var timer = Timer()
     
     init(defaultButtonImage: String, activeButtonImage: String, buttonAction: @escaping () -> Void) {
         defaultButtonSprite = SKSpriteNode(imageNamed: defaultButtonImage)

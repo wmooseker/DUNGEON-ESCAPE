@@ -18,6 +18,8 @@
 		3278891621B4D26500651069 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3278891521B4D26500651069 /* TileSet.sks */; };
 		32E4CE1D21B76AA300FD7D71 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE1C21B76AA300FD7D71 /* Button.swift */; };
 		32E4CE2121B775DB00FD7D71 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE2021B775DB00FD7D71 /* Direction.swift */; };
+		FD2806C521BDD45400C2C377 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C421BDD45400C2C377 /* Monster.swift */; };
+		FD2806C721BDDBFA00C2C377 /* SKSpriteNode+health.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		3278891521B4D26500651069 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
 		32E4CE1C21B76AA300FD7D71 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		32E4CE2021B775DB00FD7D71 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		FD2806C421BDD45400C2C377 /* Monster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
+		FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+health.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 				32E4CE1C21B76AA300FD7D71 /* Button.swift */,
 				32E4CE2021B775DB00FD7D71 /* Direction.swift */,
 				3278890321B4CCAE00651069 /* GameScene.swift */,
+				FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */,
+				FD2806C421BDD45400C2C377 /* Monster.swift */,
 				327888FF21B4CCAE00651069 /* GameScene.sks */,
 				3278891521B4D26500651069 /* TileSet.sks */,
 				3278890121B4CCAE00651069 /* Actions.sks */,
@@ -157,9 +163,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3278890421B4CCAE00651069 /* GameScene.swift in Sources */,
+				FD2806C721BDDBFA00C2C377 /* SKSpriteNode+health.swift in Sources */,
 				3278890621B4CCAE00651069 /* GameViewController.swift in Sources */,
 				327888FE21B4CCAE00651069 /* AppDelegate.swift in Sources */,
 				32E4CE2121B775DB00FD7D71 /* Direction.swift in Sources */,
+				FD2806C521BDD45400C2C377 /* Monster.swift in Sources */,
 				32E4CE1D21B76AA300FD7D71 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
