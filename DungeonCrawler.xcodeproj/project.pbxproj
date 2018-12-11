@@ -18,6 +18,7 @@
 		3278891621B4D26500651069 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3278891521B4D26500651069 /* TileSet.sks */; };
 		32E4CE1D21B76AA300FD7D71 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE1C21B76AA300FD7D71 /* Button.swift */; };
 		32E4CE2121B775DB00FD7D71 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE2021B775DB00FD7D71 /* Direction.swift */; };
+		344F32C021BF75AA0055A368 /* PlayerWalkAtlas.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 344F32BF21BF75AA0055A368 /* PlayerWalkAtlas.atlas */; };
 		FD2806C521BDD45400C2C377 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C421BDD45400C2C377 /* Monster.swift */; };
 		FD2806C721BDDBFA00C2C377 /* SKSpriteNode+health.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */; };
 		FD6EDE4421BF266800B78A1C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4321BF266800B78A1C /* MenuViewController.swift */; };
@@ -40,6 +41,7 @@
 		3278891521B4D26500651069 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
 		32E4CE1C21B76AA300FD7D71 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		32E4CE2021B775DB00FD7D71 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		344F32BF21BF75AA0055A368 /* PlayerWalkAtlas.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PlayerWalkAtlas.atlas; sourceTree = "<group>"; };
 		FD2806C421BDD45400C2C377 /* Monster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+health.swift"; sourceTree = "<group>"; };
 		FD6EDE4321BF266800B78A1C /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		327888FC21B4CCAE00651069 /* DungeonCrawler */ = {
 			isa = PBXGroup;
 			children = (
+				344F32BF21BF75AA0055A368 /* PlayerWalkAtlas.atlas */,
 				327888FD21B4CCAE00651069 /* AppDelegate.swift */,
 				32E4CE1C21B76AA300FD7D71 /* Button.swift */,
 				32E4CE2021B775DB00FD7D71 /* Direction.swift */,
@@ -159,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3278891621B4D26500651069 /* TileSet.sks in Resources */,
+				344F32C021BF75AA0055A368 /* PlayerWalkAtlas.atlas in Resources */,
 				FD6EDE4C21BF400300B78A1C /* GameScene2.sks in Resources */,
 				3278890921B4CCAE00651069 /* Main.storyboard in Resources */,
 				3278890021B4CCAE00651069 /* GameScene.sks in Resources */,

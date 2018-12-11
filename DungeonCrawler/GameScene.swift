@@ -45,6 +45,8 @@ class GameScene: SKScene {
     
     let cam = SKCameraNode()
     var playerCharacter: SKSpriteNode!
+    var playerFrontWalkFrames: [SKTexture] = []
+    
     var platform = SKTileMapNode()
     var gridGraph = GKGridGraph()
     var isMoveButtonPressed = false
@@ -143,6 +145,7 @@ class GameScene: SKScene {
         guard let playerCharacter = childNode(withName: "playerCharacter") as? SKSpriteNode else{
             fatalError("error with loading player node")
         }
+        buildPlayer()
         guard let platformTileMap = childNode(withName: "platform") as? SKTileMapNode else {
             fatalError("error with loading player node")
         }
@@ -160,7 +163,22 @@ class GameScene: SKScene {
         
     }
     
+    func buildPlayer() {
+        let playerFrontWalkAnimatedAtlas = SKTextureAtlas(named: "PlayerWalkAtlas")
+        var frontWalkFrames: [SKTexture] = []
+        let numImages = playerFrontWalkAnimatedAtlas.textureNames.count
+        for i in 1...numImages {
+            let playerTextureName = "Dude front walk \(i)"
+            frontWalkFrames.append(playerFrontWalkAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerFrontWalkFrames = frontWalkFrames
+        let firstFrontWalkFrameTexture = frontWalkFrames[0]
+        playerCharacter.texture = firstFrontWalkFrameTexture
+    }
     
+    func animatePlayerFrontWalk() {
+        playerCharacter.run(SKAction.animate(with: playerFrontWalkFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
     
     
     func monsterTime(){
@@ -276,6 +294,7 @@ class GameScene: SKScene {
             }
         }
         if(canMove){
+            animatePlayerFrontWalk()
             moveStuff(xMove: xMove, yMove: yMove)
         }
     }
