@@ -13,6 +13,8 @@ import GameplayKit
 
 class GameScene2: SKScene {
     
+    
+    
     var timer: Timer? = nil
     
     var buttonIsPressed = false
@@ -396,10 +398,7 @@ class GameScene2: SKScene {
                 self.levelKey.removeFromParent()
             }
             if levelDoor.contains(touch.location(in: self)) {
-                let reveal = SKTransition.flipHorizontal(withDuration: 1.0)
-                var scene = SKScene(fileNamed: "GameScene3")!
-                scene.scaleMode = .aspectFill
-                self.view?.presentScene(scene , transition: reveal)
+                
             }
         }
     }

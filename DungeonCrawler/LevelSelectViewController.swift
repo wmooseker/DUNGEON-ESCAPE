@@ -36,13 +36,6 @@ class LevelSelectViewController: UIViewController {
                     let level = "GameScene2"
                     gameVC.level = level
                 }
-            } else if identifier == "levelThreeSegue" {
-                // we want to downcast using as? the destination general UIViewController to a specific subclass SecondViewController
-                if let gameVC = segue.destination as? GameViewController {
-                    
-                    let level = "GameScene3"
-                    gameVC.level = level
-                }
             }
         }
     }
