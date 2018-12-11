@@ -11,7 +11,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene3: SKScene {
     
     var timer: Timer? = nil
     
@@ -68,7 +68,7 @@ class GameScene: SKScene {
     //    }
     
     func loadButtonNodes() {
-
+        print("loading button nodes")
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
         rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
         downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
@@ -93,7 +93,7 @@ class GameScene: SKScene {
     
     
     func loadSceneNodes() {
-        print("loading scenenodes for scene 1")
+        print("loading scene nodes for 3")
         var wallCount = 1
         var monsterCount = 1
         var potionCount = 1
@@ -146,10 +146,11 @@ class GameScene: SKScene {
         self.playerCharacter = playerCharacter
         loadButtonNodes()
         monsterTime()
+        print("everything is loaded?")
     }
     
     override func didMove(to view: SKView) {
-        print("moved to scene 1")
+        print("game scene 3 is now loading")
         loadSceneNodes()
         self.camera = cam
         
@@ -418,5 +419,6 @@ class GameScene: SKScene {
     }
     
 }
+
 
 
