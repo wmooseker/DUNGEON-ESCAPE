@@ -383,7 +383,7 @@ class GameScene: SKScene {
                     self.playerHealth += healAmount
                     self.potions.remove(at: count)
                     potion.removeFromParent()
-                    
+
                 }
                 count += 1
             }
