@@ -23,7 +23,7 @@ class GameScene: SKScene {
     var monsterHealth = [Int]()
     var monsters = [SKSpriteNode]()
     var levelKey = SKSpriteNode()
-    
+    var levelDoor = SKSpriteNode()
     var keyFound: Bool = false
     
     var scoreTotal = 0 {
@@ -97,6 +97,11 @@ class GameScene: SKScene {
         var wallCount = 1
         var monsterCount = 1
         var potionCount = 1
+        
+        guard let door = childNode(withName: "door") as? SKSpriteNode else {
+            fatalError(" failed to load door sprite")
+        }
+        self.levelDoor = door
         
         guard let key = childNode(withName: "key") as? SKSpriteNode else {
             fatalError(" failed to load key sprite")
@@ -389,9 +394,30 @@ class GameScene: SKScene {
                 self.keyFound = true
                 self.levelKey.removeFromParent()
             }
+            if levelDoor.contains(touch.location(in: self)) {
+                if(keyFound == true){
+                    let reveal = SKTransition.flipHorizontal(withDuration: 1.0)
+                    let scene = SKScene(fileNamed: "GameScene2")!
+                    scene.scaleMode = .aspectFill
+                    self.view?.presentScene(scene , transition: reveal)
+                } else {
+                    let doorWarning = SKLabelNode(fontNamed: "Papyrus")
+                    doorWarning.fontSize = 30
+                    doorWarning.text = "You must find the key before opening door!"
+                    doorWarning.position = levelDoor.position
+                    addChild(doorWarning)
+                    fadeAndRemove(node: doorWarning)
+                }
+            }
         }
     }
     
+    func fadeAndRemove(node: SKNode) {
+        let fadeOutAction = SKAction.fadeOut(withDuration: 3.0)
+        let remove = SKAction.run({ node.removeFromParent }())
+        let sequence = SKAction.sequence([fadeOutAction, remove])
+        node.run(sequence)
+    }
     func gameOver() {
         self.isPaused = true
         //self.scene?.view?.isPaused = true

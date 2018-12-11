@@ -23,7 +23,7 @@ class GameScene2: SKScene {
     var monsterHealth = [Int]()
     var monsters = [SKSpriteNode]()
     var levelKey = SKSpriteNode()
-    
+    var levelDoor = SKSpriteNode()
     var keyFound: Bool = false
     
     var scoreTotal = 0 {
@@ -42,6 +42,7 @@ class GameScene2: SKScene {
             }
         }
     }
+    
     
     let cam = SKCameraNode()
     var playerCharacter: SKSpriteNode!
@@ -96,6 +97,12 @@ class GameScene2: SKScene {
         var wallCount = 1
         var monsterCount = 1
         var potionCount = 1
+        
+        
+        guard let door = childNode(withName: "door") as? SKSpriteNode else {
+            fatalError(" failed to load door sprite")
+        }
+        self.levelDoor = door
         
         guard let key = childNode(withName: "key") as? SKSpriteNode else {
             fatalError(" failed to load key sprite")
@@ -387,6 +394,12 @@ class GameScene2: SKScene {
                 print("key found")
                 self.keyFound = true
                 self.levelKey.removeFromParent()
+            }
+            if levelDoor.contains(touch.location(in: self)) {
+                let reveal = SKTransition.flipHorizontal(withDuration: 1.0)
+                var scene = SKScene(fileNamed: "GameScene3")!
+                scene.scaleMode = .aspectFill
+                self.view?.presentScene(scene , transition: reveal)
             }
         }
     }

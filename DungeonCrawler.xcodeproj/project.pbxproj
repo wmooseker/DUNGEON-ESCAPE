@@ -23,9 +23,7 @@
 		FD6EDE4421BF266800B78A1C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4321BF266800B78A1C /* MenuViewController.swift */; };
 		FD6EDE4621BF27DB00B78A1C /* LevelSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4521BF27DB00B78A1C /* LevelSelectViewController.swift */; };
 		FD6EDE4821BF3EBB00B78A1C /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4721BF3EBB00B78A1C /* GameScene2.swift */; };
-		FD6EDE4A21BF3EE000B78A1C /* GameScene3.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4921BF3EE000B78A1C /* GameScene3.swift */; };
 		FD6EDE4C21BF400300B78A1C /* GameScene2.sks in Resources */ = {isa = PBXBuildFile; fileRef = FD6EDE4B21BF400300B78A1C /* GameScene2.sks */; };
-		FD6EDE4E21BF402200B78A1C /* GameScene3.sks in Resources */ = {isa = PBXBuildFile; fileRef = FD6EDE4D21BF402200B78A1C /* GameScene3.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +45,7 @@
 		FD6EDE4321BF266800B78A1C /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		FD6EDE4521BF27DB00B78A1C /* LevelSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectViewController.swift; sourceTree = "<group>"; };
 		FD6EDE4721BF3EBB00B78A1C /* GameScene2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
-		FD6EDE4921BF3EE000B78A1C /* GameScene3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene3.swift; sourceTree = "<group>"; };
 		FD6EDE4B21BF400300B78A1C /* GameScene2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene2.sks; sourceTree = "<group>"; };
-		FD6EDE4D21BF402200B78A1C /* GameScene3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene3.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +85,8 @@
 				FD2806C421BDD45400C2C377 /* Monster.swift */,
 				3278890321B4CCAE00651069 /* GameScene.swift */,
 				FD6EDE4721BF3EBB00B78A1C /* GameScene2.swift */,
-				FD6EDE4921BF3EE000B78A1C /* GameScene3.swift */,
 				327888FF21B4CCAE00651069 /* GameScene.sks */,
 				FD6EDE4B21BF400300B78A1C /* GameScene2.sks */,
-				FD6EDE4D21BF402200B78A1C /* GameScene3.sks */,
 				3278891521B4D26500651069 /* TileSet.sks */,
 				3278890121B4CCAE00651069 /* Actions.sks */,
 				3278890521B4CCAE00651069 /* GameViewController.swift */,
@@ -164,7 +158,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD6EDE4E21BF402200B78A1C /* GameScene3.sks in Resources */,
 				3278891621B4D26500651069 /* TileSet.sks in Resources */,
 				FD6EDE4C21BF400300B78A1C /* GameScene2.sks in Resources */,
 				3278890921B4CCAE00651069 /* Main.storyboard in Resources */,
@@ -184,7 +177,6 @@
 			files = (
 				3278890421B4CCAE00651069 /* GameScene.swift in Sources */,
 				FD6EDE4621BF27DB00B78A1C /* LevelSelectViewController.swift in Sources */,
-				FD6EDE4A21BF3EE000B78A1C /* GameScene3.swift in Sources */,
 				FD2806C721BDDBFA00C2C377 /* SKSpriteNode+health.swift in Sources */,
 				FD6EDE4821BF3EBB00B78A1C /* GameScene2.swift in Sources */,
 				3278890621B4CCAE00651069 /* GameViewController.swift in Sources */,
@@ -339,7 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TJ6N5A5G35;
+				DEVELOPMENT_TEAM = N2HQLUR393;
 				INFOPLIST_FILE = DungeonCrawler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -357,7 +349,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TJ6N5A5G35;
+				DEVELOPMENT_TEAM = N2HQLUR393;
 				INFOPLIST_FILE = DungeonCrawler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
