@@ -30,6 +30,8 @@
 		3278891621B4D26500651069 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3278891521B4D26500651069 /* TileSet.sks */; };
 		32E4CE1D21B76AA300FD7D71 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE1C21B76AA300FD7D71 /* Button.swift */; };
 		32E4CE2121B775DB00FD7D71 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E4CE2021B775DB00FD7D71 /* Direction.swift */; };
+		32F7F90E21C0C4CE00191635 /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7F90D21C0C4CE00191635 /* GameOverViewController.swift */; };
+		32F7F91021C0C4F600191635 /* YouWinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7F90F21C0C4F600191635 /* YouWinViewController.swift */; };
 		FD2806C521BDD45400C2C377 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C421BDD45400C2C377 /* Monster.swift */; };
 		FD2806C721BDDBFA00C2C377 /* SKSpriteNode+health.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */; };
 		FD6EDE4421BF266800B78A1C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6EDE4321BF266800B78A1C /* MenuViewController.swift */; };
@@ -64,6 +66,8 @@
 		3278891521B4D26500651069 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
 		32E4CE1C21B76AA300FD7D71 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		32E4CE2021B775DB00FD7D71 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		32F7F90D21C0C4CE00191635 /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
+		32F7F90F21C0C4F600191635 /* YouWinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouWinViewController.swift; sourceTree = "<group>"; };
 		FD2806C421BDD45400C2C377 /* Monster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		FD2806C621BDDBFA00C2C377 /* SKSpriteNode+health.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+health.swift"; sourceTree = "<group>"; };
 		FD6EDE4321BF266800B78A1C /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +133,8 @@
 				FD6EDE4321BF266800B78A1C /* MenuViewController.swift */,
 				FD6EDE4521BF27DB00B78A1C /* LevelSelectViewController.swift */,
 				3278890721B4CCAE00651069 /* Main.storyboard */,
+				32F7F90F21C0C4F600191635 /* YouWinViewController.swift */,
+				32F7F90D21C0C4CE00191635 /* GameOverViewController.swift */,
 				3278890A21B4CCB000651069 /* Assets.xcassets */,
 				3278890C21B4CCB000651069 /* LaunchScreen.storyboard */,
 				3278890F21B4CCB000651069 /* Info.plist */,
@@ -230,9 +236,11 @@
 				3278890621B4CCAE00651069 /* GameViewController.swift in Sources */,
 				327888FE21B4CCAE00651069 /* AppDelegate.swift in Sources */,
 				32E4CE2121B775DB00FD7D71 /* Direction.swift in Sources */,
+				32F7F90E21C0C4CE00191635 /* GameOverViewController.swift in Sources */,
 				FD2806C521BDD45400C2C377 /* Monster.swift in Sources */,
 				32E4CE1D21B76AA300FD7D71 /* Button.swift in Sources */,
 				FD6EDE4421BF266800B78A1C /* MenuViewController.swift in Sources */,
+				32F7F91021C0C4F600191635 /* YouWinViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

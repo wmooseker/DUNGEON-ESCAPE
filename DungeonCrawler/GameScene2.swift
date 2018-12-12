@@ -48,27 +48,34 @@ class GameScene2: SKScene {
     
     let cam = SKCameraNode()
     var playerCharacter: SKSpriteNode!
+    
+    var playerFrontWalkFrames: [SKTexture] = []
+    var playerBackWalkFrames: [SKTexture] = []
+    var playerAttackUpFrames: [SKTexture] = []
+    var playerAttackDownFrames: [SKTexture] = []
+    var playerAttackRightFrames: [SKTexture] = []
+    var playerAttackLeftFrames: [SKTexture] = []
+    var monsterFrontWalkFrames: [SKTexture] = []
+    var monsterBackWalkFrames: [SKTexture] = []
+    var monsterAttackUpFrames: [SKTexture] = []
+    var monsterAttackDownFrames: [SKTexture] = []
+    var monsterAttackRightFrames: [SKTexture] = []
+    var monsterAttackLeftFrames: [SKTexture] = []
+    
     var platform = SKTileMapNode()
     var gridGraph = GKGridGraph()
     var isMoveButtonPressed = false
-    var leftButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
+    var leftButton = Button(defaultButtonImage: "leftArrow", activeButtonImage: "leftArrow", buttonAction: {
     })
-    var rightButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
+    var rightButton = Button(defaultButtonImage: "rightArrow", activeButtonImage: "rightArrow", buttonAction: {
         //let moveDirection = MovementDirection.right
     })
-    var upButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
+    var upButton = Button(defaultButtonImage: "upArrow", activeButtonImage: "upArrow", buttonAction: {
         //let moveDirection = MovementDirection.up
     })
-    var downButton = Button(defaultButtonImage: "roman", activeButtonImage: "roman", buttonAction: {
+    var downButton = Button(defaultButtonImage: "downArrow", activeButtonImage: "downArrow", buttonAction: {
         //let moveDirection = MovementDirection.left
     })
-    
-    //    enum MovementDirection: Int {
-    //        case up = 1
-    //        case down = -1
-    //        case left = -2
-    //        case right = 2
-    //    }
     
     func loadButtonNodes() {
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
@@ -152,6 +159,8 @@ class GameScene2: SKScene {
         self.platform = platformTileMap
         print("\(platform.numberOfColumns)")
         self.playerCharacter = playerCharacter
+        buildPlayer()
+        buildMonsters()
         loadButtonNodes()
         monsterTime()
     }
@@ -163,6 +172,168 @@ class GameScene2: SKScene {
         
     }
     
+    func buildPlayer() {
+        let playerFrontWalkAnimatedAtlas = SKTextureAtlas(named: "PlayerWalkingFront")
+        var frontWalkFrames: [SKTexture] = []
+        let numFrontImages = playerFrontWalkAnimatedAtlas.textureNames.count
+        for i in 1...numFrontImages {
+            let playerTextureName = "Dudefrontwalk\(i)"
+            frontWalkFrames.append(playerFrontWalkAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerFrontWalkFrames = frontWalkFrames
+        
+        let playerBackWalkAnimatedAtlas = SKTextureAtlas(named: "PlayerWalkingBack")
+        var backWalkFrames: [SKTexture] = []
+        let numBackImages = playerBackWalkAnimatedAtlas.textureNames.count
+        for x in 1...numBackImages {
+            let playerTextureName = "DudeWalking(Back)\(x)"
+            backWalkFrames.append(playerBackWalkAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerBackWalkFrames = backWalkFrames
+        
+        let playerUpAttackAnimatedAtlas = SKTextureAtlas(named: "PlayerAttackUp")
+        var attackUpFrames: [SKTexture] = []
+        let numAttackUpImages = playerUpAttackAnimatedAtlas.textureNames.count
+        for y in 1...numAttackUpImages {
+            let playerTextureName = "DudeBackUp\(y)"
+            attackUpFrames.append(playerUpAttackAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerAttackUpFrames = attackUpFrames
+        
+        let playerDownAttackAnimatedAtlas = SKTextureAtlas(named: "PlayerAttackDown")
+        var attackDownFrames: [SKTexture] = []
+        let numAttackDownImages = playerDownAttackAnimatedAtlas.textureNames.count
+        for z in 1...numAttackDownImages {
+            let playerTextureName = "Dudefrontdown\(z)"
+            attackDownFrames.append(playerDownAttackAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerAttackDownFrames = attackDownFrames
+        
+        let playerRightAttackAnimatedAtlas = SKTextureAtlas(named: "PlayerAttackRight")
+        var attackRightFrames: [SKTexture] = []
+        let numAttackRightImages = playerRightAttackAnimatedAtlas.textureNames.count
+        for e in 1...numAttackRightImages {
+            let playerTextureName = "Dudefrontright\(e)"
+            attackRightFrames.append(playerRightAttackAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerAttackRightFrames = attackRightFrames
+        
+        let playerLeftAttackAnimatedAtlas = SKTextureAtlas(named: "PlayerAttackLeft")
+        var attackLeftFrames: [SKTexture] = []
+        let numAttackLeftImages = playerLeftAttackAnimatedAtlas.textureNames.count
+        for s in 1...numAttackLeftImages {
+            let playerTextureName = "Dudefrontleft\(s)"
+            attackLeftFrames.append(playerLeftAttackAnimatedAtlas.textureNamed(playerTextureName))
+        }
+        playerAttackLeftFrames = attackLeftFrames
+        
+        
+        let firstFrontWalkFrameTexture = frontWalkFrames[0]
+        playerCharacter.texture = firstFrontWalkFrameTexture
+    }
+    
+    func animatePlayerFrontWalk() {
+        playerCharacter.run(SKAction.animate(with: playerFrontWalkFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animatePlayerBackWalk() {
+        playerCharacter.run(SKAction.animate(with: playerBackWalkFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    func animatePlayerAttackUp() {
+        playerCharacter.run(SKAction.animate(with: playerAttackUpFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animatePlayerAttackDown() {
+        playerCharacter.run(SKAction.animate(with: playerAttackDownFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animatePlayerAttackRight() {
+        playerCharacter.run(SKAction.animate(with: playerAttackRightFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animatePlayerAttackLeft() {
+        playerCharacter.run(SKAction.animate(with: playerAttackLeftFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func buildMonsters() {
+        let monsterFrontWalkAnimatedAtlas = SKTextureAtlas(named: "MonsterWalkingFront")
+        var frontWalkFrames: [SKTexture] = []
+        let numFrontImages = monsterFrontWalkAnimatedAtlas.textureNames.count
+        for i in 1...numFrontImages {
+            let monsterTextureName = "BanditfrontWalk\(i)"
+            frontWalkFrames.append(monsterFrontWalkAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterFrontWalkFrames = frontWalkFrames
+        
+        let monsterBackWalkAnimatedAtlas = SKTextureAtlas(named: "MonsterWalkingBack")
+        var backWalkFrames: [SKTexture] = []
+        let numBackImages = monsterBackWalkAnimatedAtlas.textureNames.count
+        for x in 1...numBackImages {
+            let monsterTextureName = "banditBackwalk\(x)"
+            backWalkFrames.append(monsterBackWalkAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterBackWalkFrames = backWalkFrames
+        
+        let monsterUpAttackAnimatedAtlas = SKTextureAtlas(named: "MonsterAttackUp")
+        var attackUpFrames: [SKTexture] = []
+        let numAttackUpImages = monsterUpAttackAnimatedAtlas.textureNames.count
+        for y in 1...numAttackUpImages {
+            let monsterTextureName = "Banditbackup\(y)"
+            attackUpFrames.append(monsterUpAttackAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterAttackUpFrames = attackUpFrames
+        
+        let monsterDownAttackAnimatedAtlas = SKTextureAtlas(named: "MonsterAttackDown")
+        var attackDownFrames: [SKTexture] = []
+        let numAttackDownImages = monsterDownAttackAnimatedAtlas.textureNames.count
+        for z in 1...numAttackDownImages {
+            let monsterTextureName = "Banditfrontdown\(z)"
+            attackDownFrames.append(monsterDownAttackAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterAttackDownFrames = attackDownFrames
+        
+        let monsterRightAttackAnimatedAtlas = SKTextureAtlas(named: "MonsterAttackRight")
+        var attackRightFrames: [SKTexture] = []
+        let numAttackRightImages = monsterRightAttackAnimatedAtlas.textureNames.count
+        for e in 1...numAttackRightImages {
+            let monsterTextureName = "Banditfrontright\(e)"
+            attackRightFrames.append(monsterRightAttackAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterAttackRightFrames = attackRightFrames
+        
+        let monsterLeftAttackAnimatedAtlas = SKTextureAtlas(named: "MonsterAttackLeft")
+        var attackLeftFrames: [SKTexture] = []
+        let numAttackLeftImages = monsterLeftAttackAnimatedAtlas.textureNames.count
+        for s in 1...numAttackLeftImages {
+            let monsterTextureName = "banditfrontleft\(s)"
+            attackLeftFrames.append(monsterLeftAttackAnimatedAtlas.textureNamed(monsterTextureName))
+        }
+        monsterAttackLeftFrames = attackLeftFrames
+        
+    }
+    
+    func animateMonsterFrontWalk(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterFrontWalkFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animateMonsterBackWalk(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterBackWalkFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    func animateMonsterAttackUp(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterAttackUpFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animateMonsterAttackDown(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterAttackDownFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animateMonsterAttackRight(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterAttackRightFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
+    
+    func animateMonsterAttackLeft(monster: SKSpriteNode) {
+        monster.run(SKAction.animate(with: monsterAttackLeftFrames, timePerFrame: 0.1, resize: false, restore: true))
+    }
     
     
     
@@ -207,6 +378,15 @@ class GameScene2: SKScene {
             }
         }
         if(canMove){
+            if (direction == .N) {
+                animateMonsterBackWalk(monster: monster)
+            } else if (direction == .W) {
+                animateMonsterFrontWalk(monster: monster)
+            } else if (direction == .E) {
+                animateMonsterFrontWalk(monster: monster)
+            } else if (direction == .S) {
+                animateMonsterFrontWalk(monster: monster)
+            }
             moveMonster(xMove: xMove, yMove: yMove, monster: monster)
         } else {
             monsterAttack(monster: monster)
@@ -228,10 +408,22 @@ class GameScene2: SKScene {
         let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
         let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
         if(xRange < 250 && yRange < 250){
+            
+            var currentAttackDirection = attackDirection(targetPoint: playerCharacter.position, charNode: monster)
+            if (currentAttackDirection == .N) {
+                animateMonsterAttackUp(monster: monster)
+            } else if (currentAttackDirection == .W) {
+                animateMonsterAttackLeft(monster: monster)
+            } else if (currentAttackDirection == .E) {
+                animateMonsterAttackRight(monster: monster)
+            } else if (currentAttackDirection == .S) {
+                animateMonsterAttackDown(monster: monster)
+            }
+            
             self.playerHealth -= 10
             if(self.playerHealth <= 0){
                 self.playerCharacter.texture = SKTexture(imageNamed: "Pine_Tree")
-                //gameOver()
+                gameOver()
             }
             //let action = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 1)
             //monster.run(action)
@@ -247,6 +439,15 @@ class GameScene2: SKScene {
         //            return nil
         //        }
         let coords = CGPoint(x: coordX, y: coordY)
+        let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
+        return Direction(degrees: degrees)
+    }
+    
+    func attackDirection(targetPoint: CGPoint, charNode: SKSpriteNode) -> Direction? {
+        let coordY = targetPoint.x - charNode.position.x
+        let coordX = targetPoint.y - charNode.position.y
+        let coords = CGPoint(x: coordX, y: coordY)
+        
         let degrees = 180 + Int(Float(Double.pi/2) - Float(180 / Double.pi) * atan2f(Float(coords.x), Float(coords.y)))
         return Direction(degrees: degrees)
     }
@@ -279,6 +480,16 @@ class GameScene2: SKScene {
             }
         }
         if(canMove){
+            
+            if (direction == .N) {
+                animatePlayerBackWalk()
+            } else if (direction == .W) {
+                animatePlayerFrontWalk()
+            } else if (direction == .E) {
+                animatePlayerFrontWalk()
+            } else if (direction == .S) {
+                animatePlayerFrontWalk()
+            }
             moveStuff(xMove: xMove, yMove: yMove)
         }
     }
@@ -358,6 +569,18 @@ class GameScene2: SKScene {
                 let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
                 if((xRange < 250 && yRange < 250) && monster.contains(touch.location(in:self))){
                     print("monster in range")
+                    let currentAttackDirection = attackDirection(targetPoint: touch.location(in:self), charNode: playerCharacter)
+                    
+                    if (currentAttackDirection == .N) {
+                        animatePlayerAttackUp()
+                    } else if (currentAttackDirection == .W) {
+                        animatePlayerAttackRight()
+                    } else if (currentAttackDirection == .E) {
+                        animatePlayerAttackLeft()
+                    } else if (currentAttackDirection == .S) {
+                        animatePlayerAttackDown()
+                    }
+                    
                     monsterHealth[count] -= 10
                     if(monsterHealth[count] <= 0){
                         self.scoreTotal += 10
@@ -398,14 +621,45 @@ class GameScene2: SKScene {
                 self.levelKey.removeFromParent()
             }
             if levelDoor.contains(touch.location(in: self)) {
-                
+                if(keyFound == true){
+                    let reveal = SKTransition.flipHorizontal(withDuration: 1.0)
+                    let scene = SKScene(fileNamed: "GameScene2")!
+                    scene.scaleMode = .aspectFill
+                    self.view?.presentScene(scene , transition: reveal)
+                } else {
+                    let doorWarning = SKLabelNode(fontNamed: "Papyrus")
+                    doorWarning.fontSize = 30
+                    doorWarning.text = "You must find the key before opening door!"
+                    doorWarning.position = levelDoor.position
+                    addChild(doorWarning)
+                    fadeAndRemove(node: doorWarning)
+                }
             }
         }
     }
     
+    func fadeAndRemove(node: SKNode) {
+        let fadeOutAction = SKAction.fadeOut(withDuration: 3.0)
+        let remove = SKAction.run({ node.removeFromParent }())
+        let sequence = SKAction.sequence([fadeOutAction, remove])
+        node.run(sequence)
+    }
+    
     func gameOver() {
+        var deadLabel = SKLabelNode(text: "YOU DIED")
+        deadLabel.fontSize = 70
+        deadLabel.fontName = "Papyrus"
+        deadLabel.position = CGPoint(x: playerCharacter.position.x, y: playerCharacter.position.y - 80)
+        addChild(deadLabel)
+        self.playerCharacter.texture = SKTexture(imageNamed: "bones")
         self.isPaused = true
-        //self.scene?.view?.isPaused = true
+        //        deathTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (deathTimer) in
+        //            seconds += 1
+        //        })
+        //deathTimer?.invalidate()
+        self.isPaused = true
+        //self.view!.window!.rootViewController?.performSegue(withIdentifier: "LoseSegue", sender: self)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

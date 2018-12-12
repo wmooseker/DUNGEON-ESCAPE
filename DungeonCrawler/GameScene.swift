@@ -13,6 +13,8 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var viewController: MenuViewController!
+    
     var timer: Timer? = nil
     
     var buttonIsPressed = false
@@ -72,13 +74,6 @@ class GameScene: SKScene {
     var downButton = Button(defaultButtonImage: "downArrow", activeButtonImage: "downArrow", buttonAction: {
         //let moveDirection = MovementDirection.left
     })
-    
-    //    enum MovementDirection: Int {
-    //        case up = 1
-    //        case down = -1
-    //        case left = -2
-    //        case right = 2
-    //    }
     
     func loadButtonNodes() {
 
@@ -412,7 +407,7 @@ class GameScene: SKScene {
         let xRange = abs((self.playerCharacter.position.x + 2000) - (monster.position.x + 2000))
         let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
         if(xRange < 250 && yRange < 250){
-            var currentAttackDirection = attackDirection(targetPoint: playerCharacter.position, charNode: monster)
+            let currentAttackDirection = attackDirection(targetPoint: playerCharacter.position, charNode: monster)
             if (currentAttackDirection == .N) {
                 animateMonsterAttackUp(monster: monster)
             } else if (currentAttackDirection == .W) {
@@ -425,10 +420,9 @@ class GameScene: SKScene {
             self.playerHealth -= 10
             if(self.playerHealth <= 0){
                 self.playerCharacter.texture = SKTexture(imageNamed: "bones")
-                //gameOver()
+                gameOver()
             }
-            //let action = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 1)
-            //monster.run(action)
+ 
             
         }
     }
@@ -572,7 +566,7 @@ class GameScene: SKScene {
                 let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
                 if((xRange < 250 && yRange < 250) && monster.contains(touch.location(in:self))){
                     
-                    var currentAttackDirection = attackDirection(targetPoint: touch.location(in:self), charNode: playerCharacter)
+                    let currentAttackDirection = attackDirection(targetPoint: touch.location(in:self), charNode: playerCharacter)
                     
                     if (currentAttackDirection == .N) {
                         animatePlayerAttackUp()
@@ -649,8 +643,21 @@ class GameScene: SKScene {
         node.run(sequence)
     }
     func gameOver() {
+        //var deathTimer: Timer? = nil
+        //var seconds: Int = 0
+        let deadLabel = SKLabelNode(text: "YOU DIED")
+        deadLabel.fontSize = 70
+        deadLabel.fontName = "Papyrus"
+        deadLabel.position = CGPoint(x: playerCharacter.position.x, y: playerCharacter.position.y - 80)
+        addChild(deadLabel)
+        self.playerCharacter.texture = SKTexture(imageNamed: "bones")
         self.isPaused = true
-        //self.scene?.view?.isPaused = true
+//        deathTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (deathTimer) in
+//            seconds += 1
+//        })
+        //deathTimer?.invalidate()
+        self.isPaused = true
+        //self.view!.window!.rootViewController?.performSegue(withIdentifier: "LoseSegue", sender: self)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
