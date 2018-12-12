@@ -78,7 +78,7 @@ class GameScene: SKScene {
     func loadButtonNodes() {
 
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
-        rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
+        rightButton.position = CGPoint(x: self.frame.minX + 96, y: ((self.frame.minY + 48*5) + 8))
         downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
         leftButton.position = CGPoint(x: self.frame.minX, y: self.frame.minY + 48*5)
         

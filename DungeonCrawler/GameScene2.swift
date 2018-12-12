@@ -79,7 +79,7 @@ class GameScene2: SKScene {
     
     func loadButtonNodes() {
         upButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 72*5))
-        rightButton.position = CGPoint(x: self.frame.minX + 96, y: self.frame.minY + 48*5)
+        rightButton.position = CGPoint(x: self.frame.minX + 96, y: ((self.frame.minY + 48*5) + 8))
         downButton.position = CGPoint(x: self.frame.minX + 48, y: (self.frame.minY + 24*5))
         leftButton.position = CGPoint(x: self.frame.minX, y: self.frame.minY + 48*5)
         
@@ -409,7 +409,7 @@ class GameScene2: SKScene {
         let yRange = abs((self.playerCharacter.position.y + 2000) - (monster.position.y + 2000))
         if(xRange < 250 && yRange < 250){
             
-            var currentAttackDirection = attackDirection(targetPoint: playerCharacter.position, charNode: monster)
+            let currentAttackDirection = attackDirection(targetPoint: playerCharacter.position, charNode: monster)
             if (currentAttackDirection == .N) {
                 animateMonsterAttackUp(monster: monster)
             } else if (currentAttackDirection == .W) {
@@ -422,7 +422,7 @@ class GameScene2: SKScene {
             
             self.playerHealth -= 10
             if(self.playerHealth <= 0){
-                self.playerCharacter.texture = SKTexture(imageNamed: "Pine_Tree")
+                self.playerCharacter.texture = SKTexture(imageNamed: "bones")
                 gameOver()
             }
             //let action = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 1)
@@ -584,7 +584,7 @@ class GameScene2: SKScene {
                     monsterHealth[count] -= 10
                     if(monsterHealth[count] <= 0){
                         self.scoreTotal += 10
-                        monster.texture = SKTexture(imageNamed: "Pine_Tree")
+                        monster.texture = SKTexture(imageNamed: "bones")
                         self.monsters.remove(at: count)
                         self.monsterHealth.remove(at: count)
                     } else if (monsterHealth[count] <= 50){
@@ -646,7 +646,7 @@ class GameScene2: SKScene {
     }
     
     func gameOver() {
-        var deadLabel = SKLabelNode(text: "YOU DIED")
+        let deadLabel = SKLabelNode(text: "YOU DIED")
         deadLabel.fontSize = 70
         deadLabel.fontName = "Papyrus"
         deadLabel.position = CGPoint(x: playerCharacter.position.x, y: playerCharacter.position.y - 80)
